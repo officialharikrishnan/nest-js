@@ -14,8 +14,6 @@ export class UserSevice {
         description: data.description,
         author: data.author,
         userId: data.userId,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       },
     });
     return blog;

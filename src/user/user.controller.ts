@@ -1,7 +1,11 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { UserDto } from "./dto";
 import { UserSevice } from "./user.service";
+import { AuthGuard } from "@nestjs/passport";
+import { GetUser } from "src/auth/decorator/get-user-decorator";
+import { User } from "@prisma/client";
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('user')
 export class UserController{
     constructor(private userService:UserSevice){}
@@ -12,7 +16,7 @@ export class UserController{
        return await this.userService.create(body);
     }
     @Get('blog')
-    async findAll(){
+    async findAll(@GetUser() user:User){
         console.log('called')
         return await this.userService.findAll();
     }
